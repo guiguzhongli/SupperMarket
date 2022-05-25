@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--  spring配置文件  -->
+    <context:component-scan base-package="com.atguigu">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!-- 扫描jdbc配置文件   -->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+
+    <!-- Druid数据源   -->
+    <bean id="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!--  配置与mybatis的整合  -->
+    <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="configLocation" value="classpath:mybatis.xml"/>
+        <property name="dataSource" ref="druidDataSource"/>
+        <!-- 指定mybatis，mapper文件的位置 -->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+    </bean>
+
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <!--  扫描所有dao     -->
+        <property name="basePackage" value="com.atguigu.market.dao"/>
+    </bean>
+
+        <!--  配置一个执行批量的sqlSession  -->
+        <bean id="sessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+            <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactoryBean"/>
+            <constructor-arg name="executorType" value="BATCH"/>
+        </bean>
+
+    <!--  事务控制  -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="druidDataSource"/>
+    </bean>
+
+
+    <!-- 开启注解的事务   -->
+    <aop:config>
+        <!--     切入点表达式   -->
+        <aop:pointcut id="txPoint" expression="execution(* com.atguigu.market.service..*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPoint"/>
+    </aop:config>
+
+    <!--  事务增强  -->
+    <tx:advice id="txAdvice">
+        <tx:attributes>
+    <!--    *代表所有得到方法都是事务方法        -->
+            <tx:method name="*"/>
+            <!--    以get开始的方法  -->
+            <tx:method name="get*" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+
+
+</beans>
