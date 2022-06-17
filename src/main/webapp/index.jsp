@@ -11,6 +11,7 @@
     </script>
 </head>
 <body class="login_bg">
+<div style="margin-left: 500px;">张志豪 2004050151 软件技术1班</div>
 <section class="loginBox">
     <header class="loginHeader">
         <h1>超市订单管理系统</h1>

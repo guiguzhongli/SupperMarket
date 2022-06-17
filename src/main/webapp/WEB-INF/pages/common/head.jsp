@@ -9,10 +9,11 @@
 </head>
 <body>
 <!--头部-->
-<header class="publicHeader">
+<header class="publicHeader" style="position: relative">
     <h1>超市订单管理系统</h1>
+    <div style="position: absolute;top: 0;left: 1000px">张志豪 2004050151 软件技术1班</div>
     <div class="publicHeaderR">
-        <p><span>下午好！</span><span style="color: #fff21b"> ${sessionScope.username}</span> , 欢迎你！</p>
+        <p><span>下午好！</span><span style="color: #fff21b"> ${sessionScope.userCode}</span> , 欢迎你！</p>
         <a href="${pageContext.request.contextPath }/logout">退出</a>
     </div>
 </header>
@@ -27,11 +28,11 @@
         <h2 class="leftH2"><span class="span1"></span>功能列表 <span></span></h2>
         <nav>
             <ul class="list">
-                <li ><a href="${pageContext.request.contextPath }/pages/bill.do?method=query">订单管理</a></li>
-                <li><a href="${pageContext.request.contextPath }/prolist">供应商管理</a></li>
+                <li ><a href="${pageContext.request.contextPath }/bill/billlist">订单管理</a></li>
+                <li><a href="${pageContext.request.contextPath }/provider/prolist">供应商管理</a></li>
                 <li><a href="${pageContext.request.contextPath }/userlist">用户管理</a></li>
                 <li><a href="${pageContext.request.contextPath }/pages/pwdmodify.jsp">密码修改</a></li>
-                <li><a href="${pageContext.request.contextPath }/pages/logout.do">退出系统</a></li>
+                <li><a href="${pageContext.request.contextPath }/logout">退出系统</a></li>
             </ul>
         </nav>
     </div>

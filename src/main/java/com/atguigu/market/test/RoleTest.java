@@ -1,7 +1,6 @@
 package com.atguigu.market.test;
 
-import com.atguigu.market.bean.Role;
-import com.atguigu.market.service.RoleService;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +20,6 @@ import java.util.List;
 @ContextConfiguration(locations = {"classpath:application.xml"})
 public class RoleTest {
 
-    @Autowired
-    private RoleService roleService;
 
-    @Test
-    public void testGetRole(){
-        List<Role> list = roleService.getAllRole();
-        for (Role l: list) {
-            System.out.println(l);
-        }
-    }
 
 }

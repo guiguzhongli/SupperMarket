@@ -14,9 +14,9 @@
 
             <span>用户角色：</span>
             <select name="queryUserRole">
-                <c:if test="${roleList != null }">
+                <c:if test="${role != null }">
                     <option value="0">--请选择--</option>
-                    <c:forEach var="role" items="${roleList}">
+                    <c:forEach var="role" items="${role}">
                         <option <c:if test="${role.id == queryUserRole }">selected="selected"</c:if>
                                 value="${role.id}">${role.roleName}</option>
                     </c:forEach>
@@ -25,7 +25,7 @@
 
             <input type="hidden" name="pageIndex" value="1"/>
             <input	value="查 询" type="submit" id="searchbutton">
-            <a href="${pageContext.request.contextPath}/jsp/useradd.jsp" >添加用户</a>
+            <a href="${pageContext.request.contextPath}/useradd" >添加用户</a>
         </form>
     </div>
     <!--用户-->
@@ -38,7 +38,7 @@
             <th width="10%">用户角色</th>
             <th width="30%">操作</th>
         </tr>
-        <c:forEach var="user" items="${userList }" varStatus="status">
+        <c:forEach var="user" items="${pageResult.list }" varStatus="status">
             <tr>
                 <td>
                     <span>${user.userCode }</span>
@@ -66,11 +66,11 @@
             </tr>
         </c:forEach>
     </table>
-    <input type="hidden" id="totalPageCount" value="${totalPageCount}"/>
-    <c:import url="rollpage.jsp">
-        <c:param name="totalCount" value="${totalCount}"/>
-        <c:param name="currentPageNo" value="${currentPageNo}"/>
-        <c:param name="totalPageCount" value="${totalPageCount}"/>
+    <input type="hidden" id="totalPageCount" value="${pageResult.pages}"/>
+    <c:import url="../rollpage.jsp">
+        <c:param name="totalCount" value="${pageResult.pages}"/>
+        <c:param name="currentPageNo" value="${pageResult.pageNum}"/>
+        <c:param name="totalPageCount" value="${pageResult.pages}"/>
     </c:import>
 </div>
 </section>
@@ -82,7 +82,7 @@
         <h2>提示</h2>
         <div class="removeMain">
             <p>你确定要删除该用户吗？</p>
-            <a href="#" id="yes">确定</a>
+            <a href="${pageContext.request.contextPath}/delete" id="yes">确定</a>
             <a href="#" id="no">取消</a>
         </div>
     </div>

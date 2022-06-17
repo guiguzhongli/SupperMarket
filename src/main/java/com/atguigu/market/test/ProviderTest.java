@@ -1,7 +1,5 @@
 package com.atguigu.market.test;
 
-import com.atguigu.market.bean.Provider;
-import com.atguigu.market.service.ProviderService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +18,6 @@ import java.util.List;
 @RunWith(value = SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:application.xml"})
 public class ProviderTest {
-    @Autowired
-    private ProviderService providerService;
 
-    @Test
-    public void test1(){
-        List<Provider> allProvider = providerService.getAllProvider();
-
-        for (Provider p:allProvider) {
-            System.out.println(p);
-        }
-    }
 
 }

@@ -22,11 +22,18 @@
     </bean>
 
     <!--  配置与mybatis的整合  -->
-    <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <bean id="sqlSessionFactoryBean" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
         <property name="configLocation" value="classpath:mybatis.xml"/>
         <property name="dataSource" ref="druidDataSource"/>
         <!-- 指定mybatis，mapper文件的位置 -->
         <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+    </bean>
+
+
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--  扫描所有dao     -->
+        <property name="basePackage" value="com.baomidou.mybatisplus.samples.quickstart.mapper"/>
     </bean>
 
 
@@ -38,7 +45,8 @@
         <!--  配置一个执行批量的sqlSession  -->
         <bean id="sessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
             <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactoryBean"/>
-            <constructor-arg name="executorType" value="BATCH"/>
+<!--            <constructor-arg name="executorType" value="BATCH"/>-->
+            <constructor-arg name="executorType" value="REUSE"></constructor-arg>
         </bean>
 
     <!--  事务控制  -->
@@ -46,6 +54,8 @@
         <property name="dataSource" ref="druidDataSource"/>
     </bean>
 
+
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
 
     <!-- 开启注解的事务   -->
     <aop:config>
